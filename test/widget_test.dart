@@ -27,4 +27,15 @@ void main() {
     expect(find.text('0'), findsNothing);
     expect(find.text('1'), findsOneWidget);
   });
+
+  testWidgets("counter increment smoke", (tester) async {
+    await tester.pumpWidget(const MyApp());
+
+    expect(find.text('0'), findsOneWidget);
+
+    await tester.tap(find.byIcon(Icons.add));
+    await tester.pump();
+
+    expect(find.text('1'), findsOneWidget);
+  });
 }
