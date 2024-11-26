@@ -39,3 +39,34 @@ jobs:
             with:
               name: android-relese
               path: build/app/output/flutter-apk/app-release.apk
+
+    build_ios:
+        runs-on: macos-latest
+
+        steps:
+          - name: Checkout code
+            uses: actions/checkout@v2
+        
+          - name: set up flutter
+            uses: subosito/flutter-action@v2
+            with:
+              channel: stable
+
+          - name: install dependancies
+            run: flutter pub get
+                 sudo gem install cocoapods
+
+          - name: build iOS app
+            run: |
+              flutter build ios --release --no-codesign
+
+          - name: List files in iOS build directory
+            run: ls -al build/ios/iphoneos/
+
+          - name: upload IPA as artifact
+            uses: actions/upload-artifact@v3
+            with:
+                name: ios-release
+                path: build/ios/iphoneos/Runner.app.ipa
+                if-no-files-found: warn
+                include-hidden-files: false
