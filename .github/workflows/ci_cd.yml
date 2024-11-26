@@ -24,3 +24,18 @@ jobs:
             uses: subosito/flutter-action@v2
             with:
               channel: stable
+
+          - name: install dependancies
+            run: flutter pub get
+
+          - name: run tests
+            run: flutter test
+
+          - name: Build Apk
+            run: flutter build apk --release
+
+          - name: upload android APK as artifact
+            uses: actions/upload-artifact@v3
+            with:
+              name: android-relese
+              path: build/app/output/flutter-apk/app-release.apk
